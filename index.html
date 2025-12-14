@@ -1,3 +1,443 @@
-<h1>블로그</h1>
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Researcher homepage: publications, projects, news, CV, contact." />
+  <title>Your Name | Research</title>
 
-<p style="color: blue">반갑습니다!</p>
+  <style>
+    :root{
+      --bg:#0b0f14; --panel:#0f1621; --text:#e6edf3; --muted:#9fb0c0;
+      --line:rgba(230,237,243,.12); --accent:#7dd3fc; --accent2:#a7f3d0;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius:14px;
+      --max: 1024px;
+    }
+    *{ box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
+    body{
+      margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR", Arial, sans-serif;
+      background: radial-gradient(1200px 600px at 20% -10%, rgba(125,211,252,.15), transparent 60%),
+                  radial-gradient(900px 500px at 90% 10%, rgba(167,243,208,.10), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+      line-height:1.55;
+    }
+    a{ color:var(--accent); text-decoration:none; }
+    a:hover{ text-decoration:underline; }
+    .wrap{ max-width:var(--max); margin:0 auto; padding:0 18px; }
+
+    /* Top bar */
+    header{
+      position:sticky; top:0; z-index:10;
+      backdrop-filter: blur(10px);
+      background: rgba(11,15,20,.72);
+      border-bottom:1px solid var(--line);
+    }
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:12px 0;
+      gap:12px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px; min-width:180px;
+    }
+    .logo{
+      width:34px; height:34px; border-radius:10px;
+      background: linear-gradient(135deg, rgba(125,211,252,.95), rgba(167,243,208,.9));
+      box-shadow: var(--shadow);
+    }
+    .brand b{ font-size:15px; letter-spacing:.2px; }
+    .brand small{ display:block; color:var(--muted); font-size:12px; margin-top:1px; }
+
+    nav{
+      display:flex; flex-wrap:wrap; justify-content:flex-end;
+      gap:10px;
+    }
+    nav a{
+      display:inline-block;
+      padding:8px 10px;
+      border:1px solid transparent;
+      border-radius:10px;
+      color:var(--text);
+      font-size:13px;
+      opacity:.92;
+    }
+    nav a:hover{ border-color: var(--line); text-decoration:none; }
+
+    /* Hero */
+    .hero{ padding:26px 0 10px; }
+    .grid{
+      display:grid; grid-template-columns: 1.2fr .8fr; gap:16px;
+    }
+    @media (max-width: 860px){
+      .grid{ grid-template-columns: 1fr; }
+      .brand{ min-width:auto; }
+    }
+    .card{
+      background: rgba(15,22,33,.72);
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .hero .card{ padding:18px; }
+    .kicker{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      color: var(--muted);
+      font-size:12px;
+    }
+    .dot{
+      width:8px; height:8px; border-radius:99px;
+      background: var(--accent2);
+      box-shadow: 0 0 0 3px rgba(167,243,208,.12);
+    }
+    h1{ margin:12px 0 6px; font-size:26px; letter-spacing:-.2px; }
+    .sub{ color:var(--muted); margin:0 0 12px; font-size:14px; }
+    .actions{ display:flex; flex-wrap:wrap; gap:10px; margin-top:14px; }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:9px 12px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      color: var(--text);
+      font-size:13px;
+      text-decoration:none;
+    }
+    .btn.primary{
+      border-color: rgba(125,211,252,.35);
+      background: rgba(125,211,252,.10);
+    }
+    .btn:hover{ text-decoration:none; filter: brightness(1.05); }
+
+    /* Right panel */
+    .profile{
+      display:flex; gap:14px; align-items:flex-start;
+    }
+    .avatar{
+      width:82px; height:82px; border-radius:18px;
+      border:1px solid var(--line);
+      background:
+        radial-gradient(circle at 30% 20%, rgba(125,211,252,.8), transparent 55%),
+        radial-gradient(circle at 70% 80%, rgba(167,243,208,.7), transparent 55%),
+        rgba(255,255,255,.03);
+    }
+    .meta{
+      flex:1;
+      display:grid; gap:6px;
+    }
+    .meta .line{ color:var(--muted); font-size:13px; }
+    .meta .line b{ color:var(--text); font-weight:600; }
+    .pillrow{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+    .pill{
+      font-size:12px; color:var(--muted);
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      padding:6px 9px; border-radius:999px;
+    }
+
+    /* Sections */
+    section{ padding:18px 0; }
+    .section-title{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:10px;
+      margin:0 0 10px;
+    }
+    h2{ margin:0; font-size:18px; letter-spacing:-.2px; }
+    .hint{ color:var(--muted); font-size:12px; }
+
+    .list{
+      display:grid; gap:10px;
+    }
+    .item{
+      padding:14px;
+      border-radius: var(--radius);
+      border:1px solid var(--line);
+      background: rgba(15,22,33,.60);
+    }
+    .item h3{ margin:0 0 6px; font-size:15px; }
+    .item .meta2{ color:var(--muted); font-size:13px; margin-bottom:8px; }
+    .tags{ display:flex; flex-wrap:wrap; gap:8px; }
+    .tag{
+      font-size:12px; color:var(--muted);
+      border:1px solid var(--line);
+      padding:4px 8px; border-radius:999px;
+      background: rgba(255,255,255,.02);
+    }
+
+    .cols2{ display:grid; grid-template-columns: 1fr 1fr; gap:14px; }
+    @media (max-width: 860px){ .cols2{ grid-template-columns:1fr; } }
+
+    /* Footer */
+    footer{
+      padding:22px 0 38px;
+      border-top:1px solid var(--line);
+      color:var(--muted);
+      font-size:12px;
+    }
+    .smalllinks{ display:flex; gap:12px; flex-wrap:wrap; margin-top:6px; }
+
+    /* Accessibility */
+    :focus-visible{
+      outline: 2px solid rgba(125,211,252,.65);
+      outline-offset: 2px;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="wrap topbar">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <b>Your Name</b>
+          <small>Soft Robotics • Haptics • HCI</small>
+        </div>
+      </div>
+
+      <nav aria-label="Primary">
+        <a href="#about">소개</a>
+        <a href="#news">소식</a>
+        <a href="#publications">논문</a>
+        <a href="#projects">프로젝트</a>
+        <a href="#teaching">강의</a>
+        <a href="#contact">연락처</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="hero">
+      <div class="grid">
+        <!-- Left -->
+        <div class="card" id="about">
+          <span class="kicker"><span class="dot" aria-hidden="true"></span>Research Homepage</span>
+          <h1>Your Name</h1>
+          <p class="sub">
+            소프트 로보틱스 및 촉각/햅틱 인터랙션을 연구합니다.
+            (여기 문장은 본인 연구 주제에 맞게 2~3문장으로 정리하세요.)
+          </p>
+
+          <div class="actions">
+            <a class="btn primary" href="assets/CV.pdf" target="_blank" rel="noopener">CV (PDF)</a>
+            <a class="btn" href="https://scholar.google.com/" target="_blank" rel="noopener">Google Scholar</a>
+            <a class="btn" href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
+            <a class="btn" href="mailto:you@university.ac.kr">Email</a>
+          </div>
+
+          <div style="margin-top:14px; color:var(--muted); font-size:13px;">
+            <b style="color:var(--text);">관심 키워드:</b>
+            soft actuators, tactile sensing, wearable haptics, compliant mechanisms, human-in-the-loop design
+          </div>
+        </div>
+
+        <!-- Right -->
+        <div class="card">
+          <div class="profile">
+            <div class="avatar" aria-label="Profile placeholder"></div>
+            <div class="meta">
+              <div class="line"><b>Affiliation:</b> Department / Lab</div>
+              <div class="line"><b>Position:</b> Researcher / PhD Student</div>
+              <div class="line"><b>Location:</b> City, Country</div>
+              <div class="line"><b>Email:</b> <a href="mailto:you@university.ac.kr">you@university.ac.kr</a></div>
+
+              <div class="pillrow" aria-label="Quick links">
+                <span class="pill">ORCID</span>
+                <span class="pill">Scholar</span>
+                <span class="pill">DBLP</span>
+                <span class="pill">YouTube</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top:14px; border-top:1px solid var(--line); padding-top:14px;">
+            <div class="section-title">
+              <h2 style="font-size:15px;">하이라이트</h2>
+              <span class="hint">최근 성과 2~3개만</span>
+            </div>
+            <div class="list">
+              <div class="item">
+                <h3>Best Paper Award (예시)</h3>
+                <div class="meta2">Conference • 2025</div>
+                <div class="tags">
+                  <span class="tag">Award</span><span class="tag">Haptics</span>
+                </div>
+              </div>
+              <div class="item">
+                <h3>New dataset / open-source release (예시)</h3>
+                <div class="meta2">GitHub • 2025</div>
+                <div class="tags">
+                  <span class="tag">Open-source</span><span class="tag">Soft robotics</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div><!-- grid -->
+    </div><!-- hero -->
+
+    <section id="news">
+      <div class="section-title">
+        <h2>News</h2>
+        <span class="hint">최신 5개만 유지</span>
+      </div>
+      <div class="list">
+        <div class="item">
+          <h3>2025-12 — Paper accepted at [Venue]</h3>
+          <div class="meta2">Short description. Link to paper, project page, or preprint.</div>
+        </div>
+        <div class="item">
+          <h3>2025-10 — Released code for [Project]</h3>
+          <div class="meta2"><a href="https://github.com/" target="_blank" rel="noopener">Repository</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="publications">
+      <div class="section-title">
+        <h2>Selected Publications</h2>
+        <span class="hint">대표 논문 위주(전체 목록은 CV/Scholar)</span>
+      </div>
+
+      <div class="list">
+        <article class="item">
+          <h3>
+            Paper Title: A Soft Robotic Gripper with ...
+          </h3>
+          <div class="meta2">
+            <b style="color:var(--text); font-weight:600;">Your Name</b>, Coauthor A, Coauthor B.
+            <br />
+            <i>Conference/Journal</i>, 2025.
+          </div>
+          <div class="tags">
+            <a class="tag" href="#" target="_blank" rel="noopener">PDF</a>
+            <a class="tag" href="#" target="_blank" rel="noopener">DOI</a>
+            <a class="tag" href="#" target="_blank" rel="noopener">Code</a>
+            <a class="tag" href="#" target="_blank" rel="noopener">Video</a>
+          </div>
+        </article>
+
+        <article class="item">
+          <h3>
+            Paper Title: Wearable Haptics for ...
+          </h3>
+          <div class="meta2">
+            Coauthor A, <b style="color:var(--text); font-weight:600;">Your Name</b>, Coauthor C.
+            <br />
+            <i>Journal</i>, 2024.
+          </div>
+          <div class="tags">
+            <a class="tag" href="#" target="_blank" rel="noopener">PDF</a>
+            <a class="tag" href="#" target="_blank" rel="noopener">DOI</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="section-title">
+        <h2>Projects</h2>
+        <span class="hint">프로젝트 3~6개만</span>
+      </div>
+
+      <div class="cols2">
+        <div class="item">
+          <h3>Project A — Soft actuator design</h3>
+          <div class="meta2">1~2문장으로 문제/방법/결과를 쓰세요.</div>
+          <div class="tags">
+            <span class="tag">Soft actuator</span>
+            <span class="tag">Fabrication</span>
+            <a class="tag" href="#" target="_blank" rel="noopener">Details</a>
+          </div>
+        </div>
+
+        <div class="item">
+          <h3>Project B — Tactile sensing & inference</h3>
+          <div class="meta2">데이터/모델/시스템 중 무엇이 핵심인지 명확히.</div>
+          <div class="tags">
+            <span class="tag">Tactile</span>
+            <span class="tag">ML</span>
+            <a class="tag" href="#" target="_blank" rel="noopener">Code</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="teaching">
+      <div class="section-title">
+        <h2>Teaching</h2>
+        <span class="hint">강의/세미나/TA 기록</span>
+      </div>
+      <div class="list">
+        <div class="item">
+          <h3>2025 — Course Name (Instructor / TA)</h3>
+          <div class="meta2">간단 설명, 자료 링크(선택).</div>
+        </div>
+        <div class="item">
+          <h3>2024 — Seminar: Soft Robotics Reading Group</h3>
+          <div class="meta2">Topics: actuators, modeling, control.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="section-title">
+        <h2>Contact</h2>
+        <span class="hint">연락처는 최소 정보만</span>
+      </div>
+
+      <div class="cols2">
+        <div class="item">
+          <h3>Email</h3>
+          <div class="meta2">
+            <a href="mailto:you@university.ac.kr">you@university.ac.kr</a>
+          </div>
+          <h3 style="margin-top:12px;">Office</h3>
+          <div class="meta2">
+            Building, Room, University<br/>
+            Street, City, Country
+          </div>
+        </div>
+
+        <div class="item">
+          <h3>Links</h3>
+          <div class="meta2 smalllinks">
+            <a href="https://scholar.google.com/" target="_blank" rel="noopener">Google Scholar</a>
+            <a href="https://orcid.org/" target="_blank" rel="noopener">ORCID</a>
+            <a href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
+            <a href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
+          </div>
+
+          <h3 style="margin-top:12px;">Download</h3>
+          <div class="meta2">
+            <a href="assets/CV.pdf" target="_blank" rel="noopener">CV.pdf</a> ·
+            <a href="assets/bio.txt" target="_blank" rel="noopener">bio.txt</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      © <span id="y"></span> Your Name · Built with plain HTML · Hosted on GitHub Pages
+      <div class="smalllinks">
+        <a href="#about">Top</a>
+        <a href="https://github.com/" target="_blank" rel="noopener">Source</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // year
+    document.getElementById("y").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
