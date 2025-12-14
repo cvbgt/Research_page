@@ -3,190 +3,298 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" content="Researcher homepage: publications, projects, news, CV, contact." />
+  <meta name="description" content="Researcher homepage with mega menu, publications, news, and contact." />
   <title>Your Name | Research</title>
-
   <style>
     :root{
-      --bg:#0b0f14; --panel:#0f1621; --text:#e6edf3; --muted:#9fb0c0;
-      --line:rgba(230,237,243,.12); --accent:#7dd3fc; --accent2:#a7f3d0;
-      --shadow: 0 10px 30px rgba(0,0,0,.35);
-      --radius:14px;
-      --max: 1024px;
+      --bg:#ffffff;
+      --text:#111;
+      --muted:#666;
+      --line:#e9e9e9;
+      --menu-bg:#fff;
+      --menu-shadow: 0 20px 50px rgba(0,0,0,.08);
+      --accent:#2f6bff;
+      --section:#bdbdbd; /* 이미지처럼 회색 섹션 */
+      --max: 1200px;
+      --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR", Arial, sans-serif;
     }
     *{ box-sizing:border-box; }
     html{ scroll-behavior:smooth; }
     body{
-      margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR", Arial, sans-serif;
-      background: radial-gradient(1200px 600px at 20% -10%, rgba(125,211,252,.15), transparent 60%),
-                  radial-gradient(900px 500px at 90% 10%, rgba(167,243,208,.10), transparent 55%),
-                  var(--bg);
+      margin:0;
+      font-family:var(--font);
+      background:var(--bg);
       color:var(--text);
       line-height:1.55;
     }
-    a{ color:var(--accent); text-decoration:none; }
+    a{ color:inherit; text-decoration:none; }
     a:hover{ text-decoration:underline; }
-    .wrap{ max-width:var(--max); margin:0 auto; padding:0 18px; }
+    .wrap{ max-width:var(--max); margin:0 auto; padding:0 22px; }
 
-    /* Top bar */
+    /* ===== Header ===== */
     header{
-      position:sticky; top:0; z-index:10;
-      backdrop-filter: blur(10px);
-      background: rgba(11,15,20,.72);
+      position:sticky; top:0; z-index:50;
+      background:var(--menu-bg);
       border-bottom:1px solid var(--line);
     }
     .topbar{
       display:flex; align-items:center; justify-content:space-between;
-      padding:12px 0;
-      gap:12px;
+      height:72px;
+      gap:18px;
     }
     .brand{
-      display:flex; align-items:center; gap:10px; min-width:180px;
+      display:flex; align-items:center; gap:12px;
+      min-width:280px;
     }
-    .logo{
-      width:34px; height:34px; border-radius:10px;
-      background: linear-gradient(135deg, rgba(125,211,252,.95), rgba(167,243,208,.9));
-      box-shadow: var(--shadow);
+    .mark{
+      width:38px; height:38px; border-radius:12px;
+      background:linear-gradient(135deg, rgba(47,107,255,.95), rgba(120,180,255,.85));
+      box-shadow: 0 18px 40px rgba(0,0,0,.12);
     }
-    .brand b{ font-size:15px; letter-spacing:.2px; }
-    .brand small{ display:block; color:var(--muted); font-size:12px; margin-top:1px; }
+    .brand .txt{ display:flex; flex-direction:column; gap:2px; }
+    .brand .name{ font-weight:900; letter-spacing:-.3px; font-size:16px; }
+    .brand .aff{ color:var(--muted); font-size:12px; }
 
-    nav{
-      display:flex; flex-wrap:wrap; justify-content:flex-end;
+    .nav{
+      display:flex; align-items:center; gap:26px;
+    }
+    .nav > button{
+      appearance:none; border:0; background:transparent;
+      font: inherit;
+      padding:16px 6px;
+      cursor:pointer;
+      color:#111;
+      position:relative;
+      font-weight:700;
+    }
+    .nav > button[aria-expanded="true"]{
+      color:var(--accent);
+    }
+    .nav > button[aria-expanded="true"]::after{
+      content:"";
+      position:absolute;
+      left:0; right:0; bottom:8px;
+      height:2px;
+      background:var(--accent);
+      border-radius:99px;
+      margin:auto;
+      width:84px;
+    }
+
+    .nav-right{
+      display:flex; align-items:center; gap:14px;
+      min-width:280px;
+      justify-content:flex-end;
+      font-weight:700;
+      color:#111;
+    }
+    .chip{
+      border:1px solid var(--line);
+      padding:8px 10px;
+      border-radius:999px;
+      font-size:13px;
+      background:#fff;
+    }
+
+    /* ===== Mega menu ===== */
+    .mega{
+      position:absolute;
+      left:0; right:0;
+      top:72px;
+      background:var(--menu-bg);
+      border-bottom:1px solid var(--line);
+      box-shadow: var(--menu-shadow);
+      display:none;
+    }
+    .mega.open{ display:block; }
+    .mega-inner{
+      padding:22px 0 26px;
+      display:grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap:34px;
+      align-items:start;
+    }
+    .mega-col{ padding:6px 6px; }
+    .mega-title{
+      font-weight:900;
+      color:#111;
+      margin:0 0 10px;
+      font-size:16px;
+      letter-spacing:-.2px;
+    }
+    .mega-note{
+      color:var(--muted);
+      font-size:13px;
+      margin:0 0 12px;
+    }
+    .mega-list{
+      display:grid;
       gap:10px;
     }
-    nav a{
-      display:inline-block;
-      padding:8px 10px;
-      border:1px solid transparent;
+    .mega-list a{
+      display:block;
+      padding:8px 6px;
       border-radius:10px;
-      color:var(--text);
-      font-size:13px;
-      opacity:.92;
+      color:#111;
+      font-weight:600;
     }
-    nav a:hover{ border-color: var(--line); text-decoration:none; }
-
-    /* Hero */
-    .hero{ padding:26px 0 10px; }
-    .grid{
-      display:grid; grid-template-columns: 1.2fr .8fr; gap:16px;
-    }
-    @media (max-width: 860px){
-      .grid{ grid-template-columns: 1fr; }
-      .brand{ min-width:auto; }
-    }
-    .card{
-      background: rgba(15,22,33,.72);
-      border:1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
-    .hero .card{ padding:18px; }
-    .kicker{
-      display:inline-flex; align-items:center; gap:8px;
-      padding:6px 10px;
-      border-radius:999px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.03);
-      color: var(--muted);
-      font-size:12px;
-    }
-    .dot{
-      width:8px; height:8px; border-radius:99px;
-      background: var(--accent2);
-      box-shadow: 0 0 0 3px rgba(167,243,208,.12);
-    }
-    h1{ margin:12px 0 6px; font-size:26px; letter-spacing:-.2px; }
-    .sub{ color:var(--muted); margin:0 0 12px; font-size:14px; }
-    .actions{ display:flex; flex-wrap:wrap; gap:10px; margin-top:14px; }
-    .btn{
-      display:inline-flex; align-items:center; justify-content:center;
-      padding:9px 12px;
-      border-radius:12px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.03);
-      color: var(--text);
-      font-size:13px;
+    .mega-list a:hover{
+      background:#f6f7fb;
       text-decoration:none;
     }
-    .btn.primary{
-      border-color: rgba(125,211,252,.35);
-      background: rgba(125,211,252,.10);
-    }
-    .btn:hover{ text-decoration:none; filter: brightness(1.05); }
 
-    /* Right panel */
-    .profile{
-      display:flex; gap:14px; align-items:flex-start;
-    }
-    .avatar{
-      width:82px; height:82px; border-radius:18px;
+    /* ===== Mobile ===== */
+    .burger{
+      display:none;
       border:1px solid var(--line);
-      background:
-        radial-gradient(circle at 30% 20%, rgba(125,211,252,.8), transparent 55%),
-        radial-gradient(circle at 70% 80%, rgba(167,243,208,.7), transparent 55%),
-        rgba(255,255,255,.03);
+      background:#fff;
+      border-radius:10px;
+      padding:10px 12px;
+      cursor:pointer;
     }
-    .meta{
-      flex:1;
-      display:grid; gap:6px;
-    }
-    .meta .line{ color:var(--muted); font-size:13px; }
-    .meta .line b{ color:var(--text); font-weight:600; }
-    .pillrow{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
-    .pill{
-      font-size:12px; color:var(--muted);
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.03);
-      padding:6px 9px; border-radius:999px;
+    @media (max-width: 980px){
+      .nav, .nav-right{ display:none; }
+      .burger{ display:inline-flex; align-items:center; gap:8px; }
+      .brand{ min-width:auto; }
     }
 
-    /* Sections */
-    section{ padding:18px 0; }
-    .section-title{
+    /* ===== Mobile Drawer ===== */
+    .drawer{
+      position:fixed; inset:0;
+      background:rgba(0,0,0,.35);
+      display:none;
+      z-index:80;
+    }
+    .drawer.open{ display:block; }
+    .panel{
+      position:absolute; right:0; top:0; bottom:0;
+      width:min(440px, 92vw);
+      background:#fff;
+      border-left:1px solid var(--line);
+      padding:16px;
+    }
+    .panel .row{
       display:flex; align-items:center; justify-content:space-between;
-      gap:10px;
+      padding-bottom:10px; border-bottom:1px solid var(--line);
+      margin-bottom:12px;
+    }
+    .panel h3{ margin:0; font-size:16px; font-weight:900; }
+    .panel button{
+      border:1px solid var(--line);
+      background:#fff;
+      border-radius:10px;
+      padding:8px 10px;
+      cursor:pointer;
+    }
+    details{
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:10px 12px;
+      margin:10px 0;
+    }
+    summary{ cursor:pointer; font-weight:900; }
+    details a{
+      display:block; padding:8px 6px; border-radius:10px;
+      font-weight:700;
+    }
+    details a:hover{ background:#f6f7fb; text-decoration:none; }
+
+    /* ===== Main content ===== */
+    main{ padding:0; }
+    .section-gray{
+      background:var(--section);
+      padding:34px 0 48px;
+    }
+    .content{
+      max-width: 980px;
+      margin:0 auto;
+    }
+
+    .hero{
+      padding:16px 0 6px;
+    }
+    .hero h1{
+      margin:0 0 8px;
+      font-size:30px;
+      letter-spacing:-.3px;
+      font-weight:1000;
+    }
+    .hero p{
+      margin:0;
+      color:#222;
+      font-size:15px;
+      max-width: 78ch;
+    }
+
+    .q{
+      margin:22px 0 26px;
+      padding:0;
+    }
+    .q h2{
       margin:0 0 10px;
+      font-size:26px;
+      letter-spacing:-.2px;
+      font-weight:950;
     }
-    h2{ margin:0; font-size:18px; letter-spacing:-.2px; }
-    .hint{ color:var(--muted); font-size:12px; }
+    .q ul{ margin:8px 0 0 22px; }
+    .q li{ margin:8px 0; color:#222; }
+    .q a{ text-decoration:underline; }
+    .sublist{ margin-top:8px; }
+    .sublist li{ list-style:circle; color:#333; }
 
-    .list{
-      display:grid; gap:10px;
+    /* Publications list style */
+    .tools{
+      display:flex; gap:10px; flex-wrap:wrap; margin:14px 0 10px;
     }
+    .tools input, .tools select{
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.20);
+      color:var(--text);
+      font:inherit;
+      min-width: 220px;
+    }
+    .list{ display:grid; gap:10px; margin-top:10px; }
     .item{
+      border:1px solid rgba(0,0,0,.08);
+      background: rgba(255,255,255,.25);
+      border-radius:14px;
       padding:14px;
-      border-radius: var(--radius);
-      border:1px solid var(--line);
-      background: rgba(15,22,33,.60);
     }
-    .item h3{ margin:0 0 6px; font-size:15px; }
-    .item .meta2{ color:var(--muted); font-size:13px; margin-bottom:8px; }
-    .tags{ display:flex; flex-wrap:wrap; gap:8px; }
+    .item h3{
+      margin:0 0 6px;
+      font-size:15px;
+      letter-spacing:-.1px;
+      font-weight:950;
+    }
+    .meta2{ color:#222; font-size:13px; }
+    .tags{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
     .tag{
-      font-size:12px; color:var(--muted);
-      border:1px solid var(--line);
-      padding:4px 8px; border-radius:999px;
-      background: rgba(255,255,255,.02);
+      font-size:12px;
+      border:1px solid rgba(0,0,0,.12);
+      background: rgba(255,255,255,.35);
+      padding:5px 9px;
+      border-radius:999px;
+      font-weight:800;
+      color:#111;
     }
+    .hint{ color:#333; font-size:12px; opacity:.9; }
 
-    .cols2{ display:grid; grid-template-columns: 1fr 1fr; gap:14px; }
-    @media (max-width: 860px){ .cols2{ grid-template-columns:1fr; } }
-
-    /* Footer */
     footer{
-      padding:22px 0 38px;
       border-top:1px solid var(--line);
+      padding:22px 0 34px;
       color:var(--muted);
       font-size:12px;
+      background:#fff;
     }
-    .smalllinks{ display:flex; gap:12px; flex-wrap:wrap; margin-top:6px; }
+    .footlinks{ display:flex; gap:12px; flex-wrap:wrap; margin-top:8px; }
 
-    /* Accessibility */
+    /* Focus */
     :focus-visible{
-      outline: 2px solid rgba(125,211,252,.65);
-      outline-offset: 2px;
-      border-radius: 10px;
+      outline:2px solid rgba(47,107,255,.55);
+      outline-offset:2px;
+      border-radius:10px;
     }
   </style>
 </head>
@@ -194,250 +302,516 @@
 <body>
   <header>
     <div class="wrap topbar">
-      <div class="brand">
-        <div class="logo" aria-hidden="true"></div>
-        <div>
-          <b>Your Name</b>
-          <small>Soft Robotics • Haptics • HCI</small>
+      <div class="brand" aria-label="Brand">
+        <div class="mark" aria-hidden="true"></div>
+        <div class="txt">
+          <div class="name">Your Name</div>
+          <div class="aff">Department / Lab · University</div>
         </div>
       </div>
 
-      <nav aria-label="Primary">
-        <a href="#about">소개</a>
-        <a href="#news">소식</a>
-        <a href="#publications">논문</a>
-        <a href="#projects">프로젝트</a>
-        <a href="#teaching">강의</a>
-        <a href="#contact">연락처</a>
+      <nav class="nav" aria-label="Primary">
+        <button class="navbtn" data-menu="menu-research" aria-expanded="false">Research</button>
+        <button class="navbtn" data-menu="menu-pubs" aria-expanded="false">Publications</button>
+        <button class="navbtn" data-menu="menu-about" aria-expanded="false">About</button>
       </nav>
+
+      <div class="nav-right" aria-label="Right links">
+        <a class="chip" href="#contact">Contact</a>
+        <a class="chip" href="assets/CV.pdf" target="_blank" rel="noopener">CV</a>
+        <a class="chip" href="https://scholar.google.com/" target="_blank" rel="noopener">Scholar</a>
+      </div>
+
+      <button class="burger" id="openDrawer" aria-label="Open menu">
+        ☰ 메뉴
+      </button>
     </div>
-  </header>
 
-  <main class="wrap">
-    <div class="hero">
-      <div class="grid">
-        <!-- Left -->
-        <div class="card" id="about">
-          <span class="kicker"><span class="dot" aria-hidden="true"></span>Research Homepage</span>
-          <h1>Your Name</h1>
-          <p class="sub">
-            소프트 로보틱스 및 촉각/햅틱 인터랙션을 연구합니다.
-            (여기 문장은 본인 연구 주제에 맞게 2~3문장으로 정리하세요.)
-          </p>
-
-          <div class="actions">
-            <a class="btn primary" href="assets/CV.pdf" target="_blank" rel="noopener">CV (PDF)</a>
-            <a class="btn" href="https://scholar.google.com/" target="_blank" rel="noopener">Google Scholar</a>
-            <a class="btn" href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
-            <a class="btn" href="mailto:you@university.ac.kr">Email</a>
-          </div>
-
-          <div style="margin-top:14px; color:var(--muted); font-size:13px;">
-            <b style="color:var(--text);">관심 키워드:</b>
-            soft actuators, tactile sensing, wearable haptics, compliant mechanisms, human-in-the-loop design
+    <!-- Mega: Research -->
+    <div class="mega" id="menu-research" role="region" aria-label="Research menu">
+      <div class="wrap mega-inner">
+        <div class="mega-col">
+          <p class="mega-title">Areas</p>
+          <p class="mega-note">연구 주제를 3~6개로 고정</p>
+          <div class="mega-list">
+            <a href="#research-1">Soft Robotics</a>
+            <a href="#research-2">Tactile Sensing</a>
+            <a href="#research-3">Wearable Haptics</a>
+            <a href="#research-4">Compliant Mechanisms</a>
           </div>
         </div>
-
-        <!-- Right -->
-        <div class="card">
-          <div class="profile">
-            <div class="avatar" aria-label="Profile placeholder"></div>
-            <div class="meta">
-              <div class="line"><b>Affiliation:</b> Department / Lab</div>
-              <div class="line"><b>Position:</b> Researcher / PhD Student</div>
-              <div class="line"><b>Location:</b> City, Country</div>
-              <div class="line"><b>Email:</b> <a href="mailto:you@university.ac.kr">you@university.ac.kr</a></div>
-
-              <div class="pillrow" aria-label="Quick links">
-                <span class="pill">ORCID</span>
-                <span class="pill">Scholar</span>
-                <span class="pill">DBLP</span>
-                <span class="pill">YouTube</span>
-              </div>
-            </div>
-          </div>
-
-          <div style="margin-top:14px; border-top:1px solid var(--line); padding-top:14px;">
-            <div class="section-title">
-              <h2 style="font-size:15px;">하이라이트</h2>
-              <span class="hint">최근 성과 2~3개만</span>
-            </div>
-            <div class="list">
-              <div class="item">
-                <h3>Best Paper Award (예시)</h3>
-                <div class="meta2">Conference • 2025</div>
-                <div class="tags">
-                  <span class="tag">Award</span><span class="tag">Haptics</span>
-                </div>
-              </div>
-              <div class="item">
-                <h3>New dataset / open-source release (예시)</h3>
-                <div class="meta2">GitHub • 2025</div>
-                <div class="tags">
-                  <span class="tag">Open-source</span><span class="tag">Soft robotics</span>
-                </div>
-              </div>
-            </div>
+        <div class="mega-col">
+          <p class="mega-title">Projects</p>
+          <p class="mega-note">대표 프로젝트만 노출</p>
+          <div class="mega-list">
+            <a href="#project-a">Project A</a>
+            <a href="#project-b">Project B</a>
+            <a href="#project-c">Project C</a>
           </div>
         </div>
-      </div><!-- grid -->
-    </div><!-- hero -->
-
-    <section id="news">
-      <div class="section-title">
-        <h2>News</h2>
-        <span class="hint">최신 5개만 유지</span>
-      </div>
-      <div class="list">
-        <div class="item">
-          <h3>2025-12 — Paper accepted at [Venue]</h3>
-          <div class="meta2">Short description. Link to paper, project page, or preprint.</div>
-        </div>
-        <div class="item">
-          <h3>2025-10 — Released code for [Project]</h3>
-          <div class="meta2"><a href="https://github.com/" target="_blank" rel="noopener">Repository</a></div>
-        </div>
-      </div>
-    </section>
-
-    <section id="publications">
-      <div class="section-title">
-        <h2>Selected Publications</h2>
-        <span class="hint">대표 논문 위주(전체 목록은 CV/Scholar)</span>
-      </div>
-
-      <div class="list">
-        <article class="item">
-          <h3>
-            Paper Title: A Soft Robotic Gripper with ...
-          </h3>
-          <div class="meta2">
-            <b style="color:var(--text); font-weight:600;">Your Name</b>, Coauthor A, Coauthor B.
-            <br />
-            <i>Conference/Journal</i>, 2025.
-          </div>
-          <div class="tags">
-            <a class="tag" href="#" target="_blank" rel="noopener">PDF</a>
-            <a class="tag" href="#" target="_blank" rel="noopener">DOI</a>
-            <a class="tag" href="#" target="_blank" rel="noopener">Code</a>
-            <a class="tag" href="#" target="_blank" rel="noopener">Video</a>
-          </div>
-        </article>
-
-        <article class="item">
-          <h3>
-            Paper Title: Wearable Haptics for ...
-          </h3>
-          <div class="meta2">
-            Coauthor A, <b style="color:var(--text); font-weight:600;">Your Name</b>, Coauthor C.
-            <br />
-            <i>Journal</i>, 2024.
-          </div>
-          <div class="tags">
-            <a class="tag" href="#" target="_blank" rel="noopener">PDF</a>
-            <a class="tag" href="#" target="_blank" rel="noopener">DOI</a>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section id="projects">
-      <div class="section-title">
-        <h2>Projects</h2>
-        <span class="hint">프로젝트 3~6개만</span>
-      </div>
-
-      <div class="cols2">
-        <div class="item">
-          <h3>Project A — Soft actuator design</h3>
-          <div class="meta2">1~2문장으로 문제/방법/결과를 쓰세요.</div>
-          <div class="tags">
-            <span class="tag">Soft actuator</span>
-            <span class="tag">Fabrication</span>
-            <a class="tag" href="#" target="_blank" rel="noopener">Details</a>
-          </div>
-        </div>
-
-        <div class="item">
-          <h3>Project B — Tactile sensing & inference</h3>
-          <div class="meta2">데이터/모델/시스템 중 무엇이 핵심인지 명확히.</div>
-          <div class="tags">
-            <span class="tag">Tactile</span>
-            <span class="tag">ML</span>
-            <a class="tag" href="#" target="_blank" rel="noopener">Code</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="teaching">
-      <div class="section-title">
-        <h2>Teaching</h2>
-        <span class="hint">강의/세미나/TA 기록</span>
-      </div>
-      <div class="list">
-        <div class="item">
-          <h3>2025 — Course Name (Instructor / TA)</h3>
-          <div class="meta2">간단 설명, 자료 링크(선택).</div>
-        </div>
-        <div class="item">
-          <h3>2024 — Seminar: Soft Robotics Reading Group</h3>
-          <div class="meta2">Topics: actuators, modeling, control.</div>
-        </div>
-      </div>
-    </section>
-
-    <section id="contact">
-      <div class="section-title">
-        <h2>Contact</h2>
-        <span class="hint">연락처는 최소 정보만</span>
-      </div>
-
-      <div class="cols2">
-        <div class="item">
-          <h3>Email</h3>
-          <div class="meta2">
-            <a href="mailto:you@university.ac.kr">you@university.ac.kr</a>
-          </div>
-          <h3 style="margin-top:12px;">Office</h3>
-          <div class="meta2">
-            Building, Room, University<br/>
-            Street, City, Country
-          </div>
-        </div>
-
-        <div class="item">
-          <h3>Links</h3>
-          <div class="meta2 smalllinks">
-            <a href="https://scholar.google.com/" target="_blank" rel="noopener">Google Scholar</a>
-            <a href="https://orcid.org/" target="_blank" rel="noopener">ORCID</a>
+        <div class="mega-col">
+          <p class="mega-title">Resources</p>
+          <p class="mega-note">외부 링크</p>
+          <div class="mega-list">
             <a href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
+            <a href="https://orcid.org/" target="_blank" rel="noopener">ORCID</a>
             <a href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
           </div>
+        </div>
+      </div>
+    </div>
 
-          <h3 style="margin-top:12px;">Download</h3>
-          <div class="meta2">
-            <a href="assets/CV.pdf" target="_blank" rel="noopener">CV.pdf</a> ·
+    <!-- Mega: Publications -->
+    <div class="mega" id="menu-pubs" role="region" aria-label="Publications menu">
+      <div class="wrap mega-inner">
+        <div class="mega-col">
+          <p class="mega-title">Quick access</p>
+          <p class="mega-note">페이지 내 섹션 이동</p>
+          <div class="mega-list">
+            <a href="#publications">Selected Publications</a>
+            <a href="#news">Recent News</a>
+            <a href="#teaching">Teaching</a>
+          </div>
+        </div>
+        <div class="mega-col">
+          <p class="mega-title">Profiles</p>
+          <p class="mega-note">논문/인용 관리</p>
+          <div class="mega-list">
+            <a href="https://scholar.google.com/" target="_blank" rel="noopener">Google Scholar</a>
+            <a href="https://dblp.org/" target="_blank" rel="noopener">DBLP</a>
+            <a href="https://www.semanticscholar.org/" target="_blank" rel="noopener">Semantic Scholar</a>
+          </div>
+        </div>
+        <div class="mega-col">
+          <p class="mega-title">Sync</p>
+          <p class="mega-note">노션→JSON 동기화 사용 시</p>
+          <div class="mega-list">
+            <a href="publications.json" target="_blank" rel="noopener">publications.json</a>
+            <a href="news.json" target="_blank" rel="noopener">news.json</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mega: About -->
+    <div class="mega" id="menu-about" role="region" aria-label="About menu">
+      <div class="wrap mega-inner">
+        <div class="mega-col">
+          <p class="mega-title">About</p>
+          <p class="mega-note">기본 정보</p>
+          <div class="mega-list">
+            <a href="#about">Bio</a>
+            <a href="#contact">Contact</a>
+            <a href="assets/CV.pdf" target="_blank" rel="noopener">CV</a>
+          </div>
+        </div>
+        <div class="mega-col">
+          <p class="mega-title">Downloads</p>
+          <p class="mega-note">자료</p>
+          <div class="mega-list">
+            <a href="assets/CV.pdf" target="_blank" rel="noopener">CV.pdf</a>
             <a href="assets/bio.txt" target="_blank" rel="noopener">bio.txt</a>
           </div>
         </div>
+        <div class="mega-col">
+          <p class="mega-title">Contact</p>
+          <p class="mega-note">최소 정보만</p>
+          <div class="mega-list">
+            <a href="mailto:you@university.ac.kr">you@university.ac.kr</a>
+            <a href="#contact">Office / Address</a>
+          </div>
+        </div>
       </div>
-    </section>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div class="drawer" id="drawer" aria-hidden="true">
+    <div class="panel" role="dialog" aria-label="Mobile menu">
+      <div class="row">
+        <h3>메뉴</h3>
+        <button id="closeDrawer" aria-label="Close menu">닫기</button>
+      </div>
+
+      <details open>
+        <summary>Research</summary>
+        <a href="#research-1">Soft Robotics</a>
+        <a href="#research-2">Tactile Sensing</a>
+        <a href="#research-3">Wearable Haptics</a>
+        <a href="#research-4">Compliant Mechanisms</a>
+        <a href="#project-a">Project A</a>
+        <a href="#project-b">Project B</a>
+      </details>
+
+      <details>
+        <summary>Publications</summary>
+        <a href="#publications">Selected Publications</a>
+        <a href="#news">Recent News</a>
+        <a href="publications.json">publications.json</a>
+      </details>
+
+      <details>
+        <summary>About</summary>
+        <a href="#about">Bio</a>
+        <a href="#contact">Contact</a>
+        <a href="assets/CV.pdf">CV</a>
+      </details>
+
+      <details>
+        <summary>External</summary>
+        <a href="https://scholar.google.com/" target="_blank" rel="noopener">Google Scholar</a>
+        <a href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
+      </details>
+    </div>
+  </div>
+
+  <main>
+    <div class="section-gray">
+      <div class="wrap content">
+        <div class="hero" id="about">
+          <h1>Your Name</h1>
+          <p>
+            한 줄 요약: 소프트 로보틱스/촉각 센싱/햅틱 인터랙션을 연구합니다.
+            아래 콘텐츠(News/논문)는 <code>news.json</code>, <code>publications.json</code>가 있으면 자동으로 채웁니다.
+          </p>
+        </div>
+
+        <!-- Research (FAQ 스타일 유지) -->
+        <div class="q" id="research-1">
+          <h2>1. Research Areas</h2>
+          <ul>
+            <li>
+              핵심 연구 주제:
+              <ul class="sublist">
+                <li><a href="#research-1">Soft Robotics</a> — compliant actuation, fabrication, design</li>
+                <li><a href="#research-2">Tactile Sensing</a> — sensing, signal processing, inference</li>
+                <li><a href="#research-3">Wearable Haptics</a> — wearable devices, psychophysics</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+
+        <div class="q" id="project-a">
+          <h2>2. Representative Projects</h2>
+          <ul>
+            <li>
+              프로젝트 페이지:
+              <ul class="sublist">
+                <li><a href="#">Project A</a> — 1~2문장 요약</li>
+                <li><a href="#">Project B</a> — 1~2문장 요약</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+
+        <!-- News -->
+        <div class="q" id="news">
+          <h2>3. Recent News</h2>
+          <div id="newsList" class="list" aria-live="polite"></div>
+          <div id="newsStatus" class="hint" style="margin-top:8px;"></div>
+        </div>
+
+        <!-- Publications -->
+        <div class="q" id="publications">
+          <h2>4. Selected Publications</h2>
+
+          <div class="tools">
+            <input id="pubq" type="search" placeholder="검색: 제목/저자/학회/연도" />
+            <select id="puby">
+              <option value="">All years</option>
+            </select>
+            <select id="pubk">
+              <option value="">All types</option>
+              <option value="journal">Journal</option>
+              <option value="conference">Conference</option>
+              <option value="preprint">Preprint</option>
+            </select>
+          </div>
+
+          <div id="pubs" class="list" aria-live="polite"></div>
+          <div id="pubsStatus" class="hint" style="margin-top:8px;"></div>
+        </div>
+
+        <!-- Teaching -->
+        <div class="q" id="teaching">
+          <h2>5. Teaching</h2>
+          <ul>
+            <li>
+              강의/세미나:
+              <ul class="sublist">
+                <li>2025 — Course Name (Instructor/TA)</li>
+                <li>2024 — Reading Group (Soft Robotics)</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Contact -->
+        <div class="q" id="contact">
+          <h2>6. Contact</h2>
+          <ul>
+            <li>Email: <a href="mailto:you@university.ac.kr">you@university.ac.kr</a></li>
+            <li>Office: Building, Room, University</li>
+            <li>
+              Links:
+              <ul class="sublist">
+                <li><a href="https://scholar.google.com/" target="_blank" rel="noopener">Google Scholar</a></li>
+                <li><a href="https://github.com/" target="_blank" rel="noopener">GitHub</a></li>
+                <li><a href="https://orcid.org/" target="_blank" rel="noopener">ORCID</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
   </main>
 
   <footer>
     <div class="wrap">
-      © <span id="y"></span> Your Name · Built with plain HTML · Hosted on GitHub Pages
-      <div class="smalllinks">
+      © <span id="y"></span> Your Name · Hosted on GitHub Pages
+      <div class="footlinks">
         <a href="#about">Top</a>
-        <a href="https://github.com/" target="_blank" rel="noopener">Source</a>
+        <a href="publications.json" target="_blank" rel="noopener">publications.json</a>
+        <a href="news.json" target="_blank" rel="noopener">news.json</a>
       </div>
     </div>
   </footer>
 
   <script>
-    // year
+    // ===== Config =====
+    const CONFIG = {
+      // 내 이름을 저자 문자열에서 강조(bold)하기 위한 패턴 (부분일치)
+      highlightAuthor: "Your Name",
+      // JSON 파일명(노션 동기화 결과)
+      publicationsUrl: "publications.json",
+      newsUrl: "news.json",
+      // 파일이 없을 때 사용할 예시 데이터
+      fallback: {
+        news: [
+          { date:"2025-12", title:"Paper accepted at [Venue]", link:"#"},
+          { date:"2025-10", title:"Released code for [Project]", link:"https://github.com/"}
+        ],
+        pubs: [
+          {
+            title:"A Soft Robotic Gripper with ...",
+            authors:"Your Name, Coauthor A, Coauthor B",
+            venue:"ICRA",
+            year:2025,
+            type:"conference",
+            links:{ pdf:"#", doi:"https://doi.org/10.1234/abcd", code:"#", video:"#"},
+            tags:["soft robotics","actuation"],
+            featured:true
+          },
+          {
+            title:"Wearable Haptics for ...",
+            authors:"Coauthor A, Your Name",
+            venue:"IEEE Transactions on Haptics",
+            year:2024,
+            type:"journal",
+            links:{ pdf:"#", doi:"" },
+            tags:["haptics"],
+            featured:false
+          }
+        ]
+      }
+    };
+
+    // ===== Mega menu behavior =====
+    const navBtns = Array.from(document.querySelectorAll(".navbtn"));
+    const megas = Array.from(document.querySelectorAll(".mega"));
+    function closeAllMenus() {
+      megas.forEach(m => m.classList.remove("open"));
+      navBtns.forEach(b => b.setAttribute("aria-expanded", "false"));
+    }
+    function openMenu(menuId, btn) {
+      closeAllMenus();
+      const el = document.getElementById(menuId);
+      if (!el) return;
+      el.classList.add("open");
+      btn.setAttribute("aria-expanded", "true");
+    }
+    navBtns.forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        const id = btn.dataset.menu;
+        const target = document.getElementById(id);
+        const isOpen = target?.classList.contains("open");
+        if (isOpen) closeAllMenus();
+        else openMenu(id, btn);
+        e.stopPropagation();
+      });
+    });
+    document.addEventListener("click", () => closeAllMenus());
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeAllMenus(); });
+    megas.forEach(m => m.addEventListener("click", (e) => e.stopPropagation()));
+
+    // ===== Mobile drawer =====
+    const drawer = document.getElementById("drawer");
+    const openDrawer = document.getElementById("openDrawer");
+    const closeDrawer = document.getElementById("closeDrawer");
+    function setDrawer(open) {
+      drawer.classList.toggle("open", open);
+      drawer.setAttribute("aria-hidden", open ? "false" : "true");
+      if (open) closeAllMenus();
+    }
+    openDrawer.addEventListener("click", () => setDrawer(true));
+    closeDrawer.addEventListener("click", () => setDrawer(false));
+    drawer.addEventListener("click", (e) => { if (e.target === drawer) setDrawer(false); });
+
+    // ===== Helpers =====
+    function escapeHtml(s) {
+      return (s ?? "").toString().replace(/[&<>"']/g, c =>
+        ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])
+      );
+    }
+
+    function highlightAuthor(authors) {
+      const h = CONFIG.highlightAuthor?.trim();
+      if (!h) return escapeHtml(authors);
+      // 단순 부분일치 기반 강조(정교하게 하려면 ORCID/정규화 필요)
+      const safe = escapeHtml(authors);
+      const re = new RegExp(h.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g");
+      return safe.replace(re, `<b>${escapeHtml(h)}</b>`);
+    }
+
+    function normalizeType(t) {
+      const s = (t ?? "").toString().toLowerCase();
+      if (["journal","j"].includes(s)) return "journal";
+      if (["conference","conf","c"].includes(s)) return "conference";
+      if (["preprint","arxiv"].includes(s)) return "preprint";
+      return s || "other";
+    }
+
+    // ===== News =====
+    async function loadNews() {
+      const listEl = document.getElementById("newsList");
+      const statusEl = document.getElementById("newsStatus");
+      let items = [];
+      try {
+        const res = await fetch(CONFIG.newsUrl, { cache: "no-store" });
+        if (!res.ok) throw new Error("news.json not found");
+        const data = await res.json();
+        items = (data.news || data.items || []).slice(0, 8);
+        statusEl.textContent = `news.json 로드됨 (${items.length}개)`;
+      } catch {
+        items = CONFIG.fallback.news;
+        statusEl.textContent = `news.json 미사용(예시 데이터 표시)`;
+      }
+
+      listEl.innerHTML = items.map(n => `
+        <div class="item">
+          <h3>${escapeHtml(n.date || "")} — ${escapeHtml(n.title || "")}</h3>
+          <div class="meta2">${n.link ? `<a class="tag" href="${escapeHtml(n.link)}" target="_blank" rel="noopener">Link</a>` : ""}</div>
+        </div>
+      `).join("");
+    }
+
+    // ===== Publications =====
+    function buildYearOptions(pubs) {
+      const ysel = document.getElementById("puby");
+      const years = [...new Set(pubs.map(p => p.year).filter(Boolean))].sort((a,b)=>b-a);
+      years.forEach(y => {
+        const opt = document.createElement("option");
+        opt.value = String(y);
+        opt.textContent = String(y);
+        ysel.appendChild(opt);
+      });
+    }
+
+    function renderPublications(pubs) {
+      const qel = document.getElementById("pubq");
+      const yel = document.getElementById("puby");
+      const kel = document.getElementById("pubk");
+      const listEl = document.getElementById("pubs");
+      const statusEl = document.getElementById("pubsStatus");
+
+      const sorted = pubs
+        .map(p => ({ ...p, type: normalizeType(p.type) }))
+        .sort((a,b) => (b.year ?? -1) - (a.year ?? -1) || (a.title || "").localeCompare(b.title || ""));
+
+      buildYearOptions(sorted);
+
+      function applyFilter() {
+        const q = (qel.value || "").toLowerCase().trim();
+        const y = yel.value;
+        const k = kel.value;
+
+        const filtered = sorted.filter(p => {
+          if (y && String(p.year) !== y) return false;
+          if (k && normalizeType(p.type) !== k) return false;
+          if (!q) return true;
+          const hay = [
+            p.title, p.authors, p.venue, p.year, p.type, (p.tags || []).join(" ")
+          ].join(" ").toLowerCase();
+          return hay.includes(q);
+        });
+
+        listEl.innerHTML = filtered.map(p => {
+          const links = p.links || {};
+          const tagLinks = [
+            links.pdf ? `<a class="tag" href="${escapeHtml(links.pdf)}" target="_blank" rel="noopener">PDF</a>` : "",
+            links.doi ? `<a class="tag" href="${escapeHtml(links.doi)}" target="_blank" rel="noopener">DOI</a>` : "",
+            links.code ? `<a class="tag" href="${escapeHtml(links.code)}" target="_blank" rel="noopener">Code</a>` : "",
+            links.video ? `<a class="tag" href="${escapeHtml(links.video)}" target="_blank" rel="noopener">Video</a>` : ""
+          ].filter(Boolean).join("");
+
+          const tags = (p.tags || []).slice(0, 6).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join("");
+
+          return `
+            <article class="item">
+              <h3>${escapeHtml(p.title || "(untitled)")}</h3>
+              <div class="meta2">
+                ${highlightAuthor(p.authors || "")}<br>
+                <i>${escapeHtml(p.venue || "")}</i>${p.venue && p.year ? ", " : ""}${escapeHtml(p.year || "")}
+                ${p.type ? ` · <span class="hint">${escapeHtml(p.type)}</span>` : ""}
+              </div>
+              <div class="tags">${tagLinks}${tags ? " " + tags : ""}</div>
+            </article>
+          `;
+        }).join("");
+
+        statusEl.textContent = `표시: ${filtered.length} / ${sorted.length}`;
+      }
+
+      qel.addEventListener("input", applyFilter);
+      yel.addEventListener("change", applyFilter);
+      kel.addEventListener("change", applyFilter);
+      applyFilter();
+    }
+
+    async function loadPublications() {
+      const statusEl = document.getElementById("pubsStatus");
+      let pubs = [];
+      try {
+        const res = await fetch(CONFIG.publicationsUrl, { cache: "no-store" });
+        if (!res.ok) throw new Error("publications.json not found");
+        const data = await res.json();
+        pubs = (data.pubs || data.items || []);
+        statusEl.textContent = `publications.json 로드됨 (${pubs.length}개)`;
+      } catch {
+        pubs = CONFIG.fallback.pubs;
+        statusEl.textContent = `publications.json 미사용(예시 데이터 표시)`;
+      }
+      // 최소 필드 정리
+      pubs = pubs
+        .map(p => ({
+          title: p.title,
+          authors: p.authors,
+          venue: p.venue,
+          year: typeof p.year === "number" ? p.year : Number(p.year),
+          type: p.type,
+          links: p.links || {},
+          tags: p.tags || []
+        }))
+        .filter(p => p.title && p.year);
+
+      renderPublications(pubs);
+    }
+
+    // init
     document.getElementById("y").textContent = new Date().getFullYear();
+    loadNews();
+    loadPublications();
   </script>
 </body>
 </html>
